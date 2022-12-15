@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astronomy Gallery</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR&family=Righteous&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: black;
+        }
+    </style>
+    <script src="libs/p5.js"></script>
+    <script>
+        let whiteStars = [];
+        let redStars = [];
+        let yellowStars = [];
+        let blueStars = [];
+        let backLayer;
+        let h1;
+        let timeLine;
+        let t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13;
+        let date;
+        let url;
+        let img1;
+        let expBox;
+        let expText;
+        let explanation;
+        let day;
+        let imgTitle;
+        let imgCopy;
+        let imgInfo;
+        let imgUrl;
+        let img;
+
+        class Star {
+            constructor() {
+                this.x = random(width);
+                this.y = random(height);
+                this.size = random(0.1, 0.5);
+                this.t = random(PI * 3);
+            }
+
+            draw() {
+                this.t += 0.1;
+                var scale = this.size + sin(this.t);
+                noStroke();
+                ellipse(this.x, this.y, scale, scale);
+            }
+        }
+
+        function setup() {
+            backLayer = createCanvas(windowWidth, windowHeight);
+            backLayer.position(0, 0);
+            for (let i = 0; i < windowHeight * 1.5; i++) {
+                whiteStars[i] = new Star();
+            }
+            for (let i = 0; i < windowHeight / 3 * 2; i++) {
+                redStars[i] = new Star();
+            }
+            for (let i = 0; i < windowHeight / 3 * 2; i++) {
+                yellowStars[i] = new Star();
+            }
+            for (let i = 0; i < windowHeight / 3 * 2; i++) {
+                blueStars[i] = new Star();
+            }
+
+            h1 = createElement('h1', '<a href="index.html" style="color: white;">Astronomy Gallery <br><span style="font-size: 15px;">with APOD from NASA</span></a>');
+            h1.position(0, 0);
+            h1.style('font-family', '\'Righteous\', cursive')
+            h1.style('color', 'white');
+            h1.style('font-size', '50px');
+            h1.style('margin', '0px');
+            h1.style('padding', '40px 40px');
+            h1.style('line-height', '60%');
+
+            img1 = createImg('img4.jpg', 'main');
+            img1.style('height', '50%');
+            img1.style('object-fit', 'cover');
+            img1.style('width', '40%');
+            img1.position(windowWidth * (5 / 100), windowHeight * (1 / 4));
+            img1.style('border-radius', '20px');
+
+            expBox = createElement('div');
+            expBox.style('height', '50%');
+            expBox.style('width', '46%');
+            expBox.position(windowWidth * (52 / 100), windowHeight * (1 / 4));
+            expBox.style('border-radius', '20px');
+            expBox.style('background-color', 'rgba(255, 255, 255, 0.5)');
+
+            expText = createElement('div', '<span style="font-size: 20px; font-weight: bold;">This is a dafault image.</span><br><br>Click one of the day on the timeline under the picture. This page will show the picture of that day and its information.');
+            expText.style('width', '42%');
+            expText.style('padding', '10% 2%');
+            expText.style('color', 'black');
+            expText.style('font-size', '15px');
+            expText.position(windowWidth * (52 / 100), windowHeight * (1 / 4));
+
+
+            timeLine = createElement('div');
+            timeLine.style('height', '0.5%');
+            timeLine.style('width', '100%');
+            timeLine.style('background-color', 'white');
+            timeLine.position(0, windowHeight * (86 / 100));
+
+            t1 = createElement('div');
+            t1.style('height', '4%');
+            t1.style('width', '1%');
+            t1.style('background-color', 'white');
+            t1.position(windowWidth / 17, windowHeight * (84 / 100));
+            t1.mouseOver(changeCol);
+            t1.mouseOut(changeCol2);
+            t1.mouseClicked(showImg);
+
+            t2 = createElement('div');
+            t2.style('height', '4%');
+            t2.style('width', '1%');
+            t2.style('background-color', 'white');
+            t2.position(windowWidth * (17 / 204), windowHeight * (84 / 100));
+            t2.mouseOver(changeCol);
+            t2.mouseOut(changeCol2);
+            t2.mouseClicked(showImg);
+
+            t3 = createElement('div');
+            t3.style('height', '4%');
+            t3.style('width', '1%');
+            t3.style('background-color', 'white');
+            t3.position(windowWidth * (44 / 204), windowHeight * (84 / 100));
+            t3.mouseOver(changeCol);
+            t3.mouseOut(changeCol2);
+            t3.mouseClicked(showImg);
+
+            t4 = createElement('div');
+            t4.style('height', '4%');
+            t4.style('width', '1%');
+            t4.style('background-color', 'white');
+            t4.position(windowWidth * (62 / 204), windowHeight * (84 / 100));
+            t4.mouseOver(changeCol);
+            t4.mouseOut(changeCol2);
+            t4.mouseClicked(showImg);
+
+            t5 = createElement('div');
+            t5.style('height', '4%');
+            t5.style('width', '1%');
+            t5.style('background-color', 'white');
+            t5.position(windowWidth * (66 / 204), windowHeight * (84 / 100));
+            t5.mouseOver(changeCol);
+            t5.mouseOut(changeCol2);
+            t5.mouseClicked(showImg);
+
+            t6 = createElement('div');
+            t6.style('height', '4%');
+            t6.style('width', '1%');
+            t6.style('background-color', 'white');
+            t6.position(windowWidth * (68 / 204), windowHeight * (84 / 100));
+            t6.mouseOver(changeCol);
+            t6.mouseOut(changeCol2);
+            t6.mouseClicked(showImg);
+
+            t7 = createElement('div');
+            t7.style('height', '4%');
+            t7.style('width', '1%');
+            t7.style('background-color', 'white');
+            t7.position(windowWidth * (72 / 204), windowHeight * (84 / 100));
+            t7.mouseOver(changeCol);
+            t7.mouseOut(changeCol2);
+            t7.mouseClicked(showImg);
+
+            t8 = createElement('div');
+            t8.style('height', '4%');
+            t8.style('width', '1%');
+            t8.style('background-color', 'white');
+            t8.position(windowWidth * (92 / 204), windowHeight * (84 / 100));
+            t8.mouseOver(changeCol);
+            t8.mouseOut(changeCol2);
+            t8.mouseClicked(showImg);
+
+            t9 = createElement('div');
+            t9.style('height', '4%');
+            t9.style('width', '1%');
+            t9.style('background-color', 'white');
+            t9.position(windowWidth * (139 / 204), windowHeight * (84 / 100));
+            t9.mouseOver(changeCol);
+            t9.mouseOut(changeCol2);
+            t9.mouseClicked(showImg);
+
+            t10 = createElement('div');
+            t10.style('height', '4%');
+            t10.style('width', '1%');
+            t10.style('background-color', 'white');
+            t10.position(windowWidth * (142 / 204), windowHeight * (84 / 100));
+            t10.mouseOver(changeCol);
+            t10.mouseOut(changeCol2);
+            t10.mouseClicked(showImg);
+
+            t11 = createElement('div');
+            t11.style('height', '4%');
+            t11.style('width', '1%');
+            t11.style('background-color', 'white');
+            t11.position(windowWidth * (144 / 204), windowHeight * (84 / 100));
+            t11.mouseOver(changeCol);
+            t11.mouseOut(changeCol2);
+            t11.mouseClicked(showImg);
+
+            t12 = createElement('div');
+            t12.style('height', '4%');
+            t12.style('width', '1%');
+            t12.style('background-color', 'white');
+            t12.position(windowWidth * (163 / 204), windowHeight * (84 / 100));
+            t12.mouseOver(changeCol);
+            t12.mouseOut(changeCol2);
+            t12.mouseClicked(showImg);
+
+            t13 = createElement('div');
+            t13.style('height', '4%');
+            t13.style('width', '1%');
+            t13.style('background-color', 'white');
+            t13.position(windowWidth * (188 / 204), windowHeight * (84 / 100));
+            t13.mouseOver(changeCol);
+            t13.mouseOut(changeCol2);
+            t13.mouseClicked(showImg);
+
+            function changeCol() {
+                this.style('background-color', 'red');
+            }
+
+            function changeCol2() {
+                this.style('background-color', 'white');
+            }
+
+            function showImg() {
+
+
+                if (this == t1) {
+                    date = '2002-02-08';
+                    day = '2002 Winter Olympics';
+                }
+                else if (this == t2) {
+                    date = '2002-05-31';
+                    day = '2002 FIFA World Cup';
+                }
+                else if (this == t3) {
+                    date = '2004-08-13';
+                    day = '2004 Summer Olympics';
+                }
+                else if (this == t4) {
+                    date = '2006-02-10';
+                    day = '2006 Winter Olympics';
+                }
+                else if (this == t5) {
+                    date = '2006-06-09';
+                    day = '2006 FIFA World Cup';
+                }
+                else if (this == t6) {
+                    date = '2006-08-24';
+                    day = 'Pluto disqualified from the planet';
+                }
+                else if (this == t7) {
+                    date = '2006-12-01';
+                    day = '2006 Asian Games';
+                }
+                else if (this == t8) {
+                    date = '2008-08-08';
+                    day = '2008 Summer Olympics';
+                }
+                else if (this == t9) {
+                    date = '2012-07-27';
+                    day = '2012 Summer Olympics';
+                }
+                else if (this == t10) {
+                    date = '2012-10-12';
+                    day = 'EU Wins Nobel Peace Prize';
+                }
+                else if (this == t11) {
+                    date = '2012-12-21';
+                    day = 'Solar System Planetary Alignment';
+                }
+                else if (this == t12) {
+                    date = '2014-07-14';
+                    day = 'New Horizons Arrives on Pluto';
+                }
+                else if (this == t13) {
+                    date = '2016-08-05';
+                    day = '2016 Summer Olympics';
+                }
+
+                console.log(date);
+
+                url = 'https://api.nasa.gov/planetary/apod?api_key=0rj20UUOe3egIlSUOtermiSeNY8Ow7x7i5RTIite&start_date=' + date + '&end_date=' + date;
+                loadJSON(url, presetData);
+
+                if (imgCopy) {
+                    t1.style('background-color', 'white');
+                    t2.style('background-color', 'white');
+                    t3.style('background-color', 'white');
+                    t4.style('background-color', 'white');
+                    t5.style('background-color', 'white');
+                    t6.style('background-color', 'white');
+                    t7.style('background-color', 'white');
+                    t8.style('background-color', 'white');
+                    t9.style('background-color', 'white');
+                    t10.style('background-color', 'white');
+                    t11.style('background-color', 'white');
+                    t12.style('background-color', 'white');
+                    t13.style('background-color', 'white');
+
+                    this.style('background-color', 'red');
+
+                    img = createImg(imgUrl, 'main');
+                    img.style('height', '50%');
+                    img.style('object-fit', 'cover');
+                    img.style('width', '40%');
+                    img.position(windowWidth * (5 / 100), windowHeight * (1 / 4));
+                    img.style('border-radius', '20px');
+
+                    explanation = '<span style="font-size: 20px; font-weight: bold;">' + date + '<br>' + day + '</span><br><span style="font-weight: bold;">Title: ' + imgTitle + '<br>Copyright: ' + imgCopy + '</span><br>' + imgInfo;
+                    expText.html(explanation);
+                    expText.style('padding', '0 2%');
+                }
+            }
+
+            function presetData(data) {
+                imgUrl = data[0].url;
+                imgInfo = data[0].explanation;
+                imgTitle = data[0].title;
+                imgCopy = data[0].copyright;
+            }
+        }
+
+        function draw() {
+            background(0);
+
+            // draw stars
+            for (let i = 0; i < whiteStars.length; i++) {
+                fill(255);
+                whiteStars[i].draw();
+            }
+            for (let i = 0; i < redStars.length; i++) {
+                fill(255, 100, 100);
+                redStars[i].draw();
+            }
+            for (let i = 0; i < yellowStars.length; i++) {
+                fill(255, 255, 100);
+                yellowStars[i].draw();
+            }
+            for (let i = 0; i < blueStars.length; i++) {
+                fill(100, 100, 255);
+                blueStars[i].draw();
+            }
+        }
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>
